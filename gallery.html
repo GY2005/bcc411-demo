@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Gallery 相册 — BCC411</title>
+  <meta name="description" content="Photos from worship services, retreats, and community life at Banner of Christ Church 411." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,400..900&family=Inter:wght@400;500;600&family=Noto+Sans+SC:wght@500;700&display=swap" rel="stylesheet" />
+  <script type="module" crossorigin src="/bcc411-demo/assets/gallery-Cu1sy3yO.js"></script>
+  <link rel="modulepreload" crossorigin href="/bcc411-demo/assets/nav-Dk7rOftf.js">
+  <link rel="modulepreload" crossorigin href="/bcc411-demo/assets/markdown-Dp0d1t7X.js">
+  <link rel="stylesheet" crossorigin href="/bcc411-demo/assets/nav-BrESBVsN.css">
+</head>
+<body data-page="gallery">
+  <div id="site-header"></div>
+
+  <section>
+    <div class="wrap">
+      <span class="eyebrow">Gallery · <span class="zh">相册</span></span>
+      <h2>Moments from worship, retreats, and community life.</h2>
+      <p class="lead">A look back at what God has been doing across the 411 family. Click any photo to enlarge.</p>
+
+      <div class="tabs" role="tablist" aria-label="Filter by album" id="album-chips"></div>
+
+      <div class="gallery-grid" id="gallery-grid"></div>
+    </div>
+  </section>
+
+  <dialog class="lightbox" id="lightbox" aria-label="Photo viewer">
+    <button type="button" class="lightbox-close" id="lightbox-close" aria-label="Close">&times;</button>
+    <button type="button" class="lightbox-prev" id="lightbox-prev" aria-label="Previous photo">&lsaquo;</button>
+    <img class="lightbox-img" id="lightbox-img" src="" alt="" />
+    <p class="lightbox-caption" id="lightbox-caption"></p>
+    <button type="button" class="lightbox-next" id="lightbox-next" aria-label="Next photo">&rsaquo;</button>
+  </dialog>
+
+  <div id="site-footer"></div>
+
+</body>
+</html>

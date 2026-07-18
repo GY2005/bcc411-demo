@@ -1,0 +1,402 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Admin Dashboard 管理后台 — BCC411</title>
+  <meta name="description" content="Content management dashboard for Banner of Christ Church 411 administrators." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,400..900&family=Inter:wght@400;500;600&family=Noto+Sans+SC:wght@500;700&display=swap" rel="stylesheet" />
+  <script type="module" crossorigin src="/bcc411-demo/assets/admin-BKTg7JH0.js"></script>
+  <link rel="modulepreload" crossorigin href="/bcc411-demo/assets/nav-Dk7rOftf.js">
+  <link rel="modulepreload" crossorigin href="/bcc411-demo/assets/markdown-Dp0d1t7X.js">
+  <link rel="modulepreload" crossorigin href="/bcc411-demo/assets/authForms-Cav43f7r.js">
+  <link rel="stylesheet" crossorigin href="/bcc411-demo/assets/nav-BrESBVsN.css">
+</head>
+<body data-page="admin">
+  <div id="site-header"></div>
+
+  <section>
+    <div class="wrap">
+      <div id="admin-loading"></div>
+      <div id="admin-shell" hidden>
+        <span class="eyebrow">Admin · <span class="zh">管理后台</span></span>
+        <h2>Content Dashboard <span class="zh">内容管理</span></h2>
+        <p class="lead">Manage sermons, events, articles, testimonies, photos, and locations.</p>
+
+        <div class="tabs" role="tablist" aria-label="Content types" id="admin-tabs">
+          <button class="tab" role="tab" aria-selected="true" data-panel="p-admin-sermons">Sermons 信息</button>
+          <button class="tab" role="tab" aria-selected="false" data-panel="p-admin-events">Events 近期活动</button>
+          <button class="tab" role="tab" aria-selected="false" data-panel="p-admin-posts">Posts 文章</button>
+          <button class="tab" role="tab" aria-selected="false" data-panel="p-admin-photos">Photos 相册</button>
+          <button class="tab" role="tab" aria-selected="false" data-panel="p-admin-locations">Locations 地点</button>
+          <button class="tab" role="tab" aria-selected="false" data-panel="p-admin-activity">Activity 操作记录</button>
+        </div>
+
+        <div class="panel active" id="p-admin-sermons" role="tabpanel">
+          <div class="admin-panel-head">
+            <h3>Sermons <span class="zh">信息</span></h3>
+            <button type="button" class="btn crimson small" id="sermon-new-btn">New Sermon 新增信息</button>
+          </div>
+
+          <form class="admin-form" id="sermon-form" novalidate hidden>
+            <h4 id="sermon-form-heading">New Sermon</h4>
+
+            <div class="form-field form-field--wide">
+              <label for="sermon-id">ID (slug)</label>
+              <input type="text" id="sermon-id" name="id" autocomplete="off" />
+              <p class="field-hint">Lowercase, no spaces — used in the URL, can't be changed after creation.</p>
+              <p class="field-error" id="sermon-id-error" hidden></p>
+            </div>
+            <div class="form-field">
+              <label for="sermon-title">Title</label>
+              <input type="text" id="sermon-title" name="title" />
+              <p class="field-error" id="sermon-title-error" hidden></p>
+            </div>
+            <div class="form-field">
+              <label for="sermon-titleZh">Title 中文</label>
+              <input type="text" id="sermon-titleZh" name="titleZh" />
+              <p class="field-error" id="sermon-titleZh-error" hidden></p>
+            </div>
+            <div class="form-field">
+              <label for="sermon-date">Date</label>
+              <input type="date" id="sermon-date" name="date" />
+              <p class="field-error" id="sermon-date-error" hidden></p>
+            </div>
+            <div class="form-field">
+              <label for="sermon-speaker">Speaker</label>
+              <input type="text" id="sermon-speaker" name="speaker" />
+              <p class="field-error" id="sermon-speaker-error" hidden></p>
+            </div>
+            <div class="form-field">
+              <label for="sermon-category">Category</label>
+              <select id="sermon-category" name="category">
+                <option value="sunday">Sunday</option>
+                <option value="retreat">Retreat</option>
+                <option value="teaching">Teaching</option>
+              </select>
+              <p class="field-error" id="sermon-category-error" hidden></p>
+            </div>
+            <div class="form-field">
+              <label for="sermon-videoUrl">Video URL</label>
+              <input type="text" id="sermon-videoUrl" name="videoUrl" placeholder="https://youtube.com/watch?v=…" />
+              <p class="field-error" id="sermon-videoUrl-error" hidden></p>
+            </div>
+            <div class="form-field form-field--wide">
+              <label for="sermon-notes">Notes</label>
+              <textarea id="sermon-notes" name="notes" rows="3"></textarea>
+              <p class="field-error" id="sermon-notes-error" hidden></p>
+            </div>
+            <div class="form-field form-field--checkbox form-field--wide">
+              <label for="sermon-published">
+                <input type="checkbox" id="sermon-published" name="published" />
+                Published <span class="zh">已发布</span> (visible on the public site)
+              </label>
+            </div>
+
+            <div class="form-status" id="sermon-form-status" role="status" hidden></div>
+
+            <div class="admin-form-actions">
+              <button type="submit" class="btn crimson small" id="sermon-submit-btn">Create Sermon</button>
+              <button type="button" class="btn ghost small" id="sermon-cancel-btn">Cancel</button>
+            </div>
+          </form>
+
+          <div class="form-status" id="sermon-list-status" role="status" hidden></div>
+          <div id="sermon-list-loading"></div>
+          <table class="admin-table" id="sermon-table" hidden>
+            <thead>
+              <tr><th>Title</th><th>Date</th><th>Speaker</th><th>Category</th><th>Status</th><th>Actions</th></tr>
+            </thead>
+            <tbody id="sermon-table-body"></tbody>
+          </table>
+          <p class="lead empty-state" id="sermon-empty" hidden>No sermons yet — create the first one above.</p>
+        </div>
+        <div class="panel" id="p-admin-events" role="tabpanel">
+          <div class="admin-panel-head">
+            <h3>Events <span class="zh">近期活动</span></h3>
+            <button type="button" class="btn crimson small" id="event-new-btn">New Event 新增活动</button>
+          </div>
+
+          <form class="admin-form" id="event-form" novalidate hidden>
+            <h4 id="event-form-heading">New Event</h4>
+
+            <div class="form-field form-field--wide">
+              <label for="event-id">ID (slug)</label>
+              <input type="text" id="event-id" name="id" autocomplete="off" />
+              <p class="field-hint">Lowercase, no spaces — used in the URL, can't be changed after creation.</p>
+              <p class="field-error" id="event-id-error" hidden></p>
+            </div>
+            <div class="form-field">
+              <label for="event-name">Name</label>
+              <input type="text" id="event-name" name="name" />
+              <p class="field-error" id="event-name-error" hidden></p>
+            </div>
+            <div class="form-field">
+              <label for="event-nameZh">Name 中文</label>
+              <input type="text" id="event-nameZh" name="nameZh" />
+              <p class="field-error" id="event-nameZh-error" hidden></p>
+            </div>
+            <div class="form-field">
+              <label for="event-startDate">Start Date</label>
+              <input type="date" id="event-startDate" name="startDate" />
+              <p class="field-error" id="event-startDate-error" hidden></p>
+            </div>
+            <div class="form-field">
+              <label for="event-endDate">End Date</label>
+              <input type="date" id="event-endDate" name="endDate" />
+              <p class="field-error" id="event-endDate-error" hidden></p>
+            </div>
+            <div class="form-field">
+              <label for="event-location">Location</label>
+              <select id="event-location" name="location">
+                <option value="ny">New York</option>
+                <option value="houston">Houston</option>
+                <option value="nc">North Carolina</option>
+                <option value="europe">Frankfurt</option>
+              </select>
+              <p class="field-error" id="event-location-error" hidden></p>
+            </div>
+            <div class="form-field">
+              <label for="event-link">Link</label>
+              <input type="text" id="event-link" name="link" placeholder="https://…" />
+              <p class="field-error" id="event-link-error" hidden></p>
+            </div>
+            <div class="form-field form-field--wide">
+              <label for="event-description">Description</label>
+              <textarea id="event-description" name="description" rows="3"></textarea>
+              <p class="field-error" id="event-description-error" hidden></p>
+            </div>
+            <div class="form-field form-field--checkbox form-field--wide">
+              <label for="event-published">
+                <input type="checkbox" id="event-published" name="published" />
+                Published <span class="zh">已发布</span> (visible on the public site)
+              </label>
+            </div>
+
+            <div class="form-status" id="event-form-status" role="status" hidden></div>
+
+            <div class="admin-form-actions">
+              <button type="submit" class="btn crimson small" id="event-submit-btn">Create Event</button>
+              <button type="button" class="btn ghost small" id="event-cancel-btn">Cancel</button>
+            </div>
+          </form>
+
+          <div class="form-status" id="event-list-status" role="status" hidden></div>
+          <div id="event-list-loading"></div>
+          <table class="admin-table" id="event-table" hidden>
+            <thead>
+              <tr><th>Name</th><th>Dates</th><th>Location</th><th>Status</th><th>Actions</th></tr>
+            </thead>
+            <tbody id="event-table-body"></tbody>
+          </table>
+          <p class="lead empty-state" id="event-empty" hidden>No events yet — create the first one above.</p>
+        </div>
+        <div class="panel" id="p-admin-posts" role="tabpanel">
+          <div class="admin-panel-head">
+            <h3>Posts <span class="zh">文章</span></h3>
+            <button type="button" class="btn crimson small" id="post-new-btn">New Post 新增文章</button>
+          </div>
+
+          <form class="admin-form" id="post-form" novalidate hidden>
+            <h4 id="post-form-heading">New Post</h4>
+
+            <div class="form-field form-field--wide">
+              <label for="post-id">ID (slug)</label>
+              <input type="text" id="post-id" name="id" autocomplete="off" />
+              <p class="field-hint">Lowercase, no spaces — used in the URL, can't be changed after creation.</p>
+              <p class="field-error" id="post-id-error" hidden></p>
+            </div>
+            <div class="form-field">
+              <label for="post-kind">Kind</label>
+              <select id="post-kind" name="kind">
+                <option value="article">Article</option>
+                <option value="testimony">Testimony</option>
+              </select>
+              <p class="field-error" id="post-kind-error" hidden></p>
+            </div>
+            <div class="form-field">
+              <label for="post-title">Title</label>
+              <input type="text" id="post-title" name="title" />
+              <p class="field-error" id="post-title-error" hidden></p>
+            </div>
+            <div class="form-field">
+              <label for="post-titleZh">Title 中文</label>
+              <input type="text" id="post-titleZh" name="titleZh" />
+              <p class="field-error" id="post-titleZh-error" hidden></p>
+            </div>
+            <div class="form-field">
+              <label for="post-date">Date</label>
+              <input type="date" id="post-date" name="date" />
+              <p class="field-error" id="post-date-error" hidden></p>
+            </div>
+            <div class="form-field">
+              <label for="post-author">Author</label>
+              <input type="text" id="post-author" name="author" />
+              <p class="field-error" id="post-author-error" hidden></p>
+            </div>
+            <div class="form-field form-field--wide">
+              <label for="post-excerpt">Excerpt</label>
+              <textarea id="post-excerpt" name="excerpt" rows="2"></textarea>
+              <p class="field-error" id="post-excerpt-error" hidden></p>
+            </div>
+            <div class="form-field form-field--wide">
+              <div class="admin-body-head">
+                <label for="post-body">Body (Markdown)</label>
+                <button type="button" class="btn ghost small" id="post-preview-btn" aria-pressed="false">Preview</button>
+              </div>
+              <textarea id="post-body" name="body" rows="8"></textarea>
+              <div class="prose admin-body-preview" id="post-body-preview" hidden></div>
+              <p class="field-error" id="post-body-error" hidden></p>
+            </div>
+            <div class="form-field form-field--checkbox form-field--wide">
+              <label for="post-published">
+                <input type="checkbox" id="post-published" name="published" />
+                Published <span class="zh">已发布</span> (visible on the public site)
+              </label>
+            </div>
+
+            <div class="form-status" id="post-form-status" role="status" hidden></div>
+
+            <div class="admin-form-actions">
+              <button type="submit" class="btn crimson small" id="post-submit-btn">Create Post</button>
+              <button type="button" class="btn ghost small" id="post-cancel-btn">Cancel</button>
+            </div>
+          </form>
+
+          <div class="admin-panel-filter" role="group" aria-label="Filter posts by kind">
+            <button type="button" class="btn crimson small post-kind-filter" data-kind="all" aria-pressed="true">All</button>
+            <button type="button" class="btn ghost small post-kind-filter" data-kind="article" aria-pressed="false">Articles</button>
+            <button type="button" class="btn ghost small post-kind-filter" data-kind="testimony" aria-pressed="false">Testimonies</button>
+          </div>
+
+          <div class="form-status" id="post-list-status" role="status" hidden></div>
+          <div id="post-list-loading"></div>
+          <table class="admin-table" id="post-table" hidden>
+            <thead>
+              <tr><th>Title</th><th>Kind</th><th>Date</th><th>Status</th><th>Actions</th></tr>
+            </thead>
+            <tbody id="post-table-body"></tbody>
+          </table>
+          <p class="lead empty-state" id="post-empty" hidden>No posts yet — create the first one above.</p>
+        </div>
+        <div class="panel" id="p-admin-photos" role="tabpanel">
+          <div class="admin-panel-head">
+            <h3>Photos <span class="zh">相册</span></h3>
+          </div>
+
+          <div class="admin-form" id="photo-upload-card">
+            <h4>Upload New Photo</h4>
+            <div class="form-field form-field--wide">
+              <label for="photo-file">Image file</label>
+              <input type="file" id="photo-file" accept="image/jpeg,image/png,image/webp,image/gif" />
+              <p class="field-hint">JPEG, PNG, WebP, or GIF — resized server-side to a max 1600px longest edge.</p>
+              <p class="field-error" id="photo-file-error" hidden></p>
+            </div>
+            <div class="form-status" id="photo-upload-status" role="status" hidden></div>
+            <div class="admin-form-actions">
+              <button type="button" class="btn crimson small" id="photo-upload-btn">Upload</button>
+            </div>
+          </div>
+
+          <form class="admin-form" id="photo-form" novalidate hidden>
+            <h4 id="photo-form-heading">New Photo</h4>
+
+            <input type="hidden" id="photo-src" name="src" />
+            <div class="form-field form-field--wide" id="photo-preview-wrap" hidden>
+              <img class="admin-photo-preview" id="photo-preview-img" alt="" />
+            </div>
+
+            <div class="form-field form-field--wide">
+              <label for="photo-id">ID (slug)</label>
+              <input type="text" id="photo-id" name="id" autocomplete="off" />
+              <p class="field-hint">Lowercase, no spaces — used in the URL, can't be changed after creation.</p>
+              <p class="field-error" id="photo-id-error" hidden></p>
+            </div>
+            <div class="form-field">
+              <label for="photo-alt">Alt text</label>
+              <input type="text" id="photo-alt" name="alt" />
+              <p class="field-error" id="photo-alt-error" hidden></p>
+            </div>
+            <div class="form-field">
+              <label for="photo-album">Album</label>
+              <input type="text" id="photo-album" name="album" />
+              <p class="field-error" id="photo-album-error" hidden></p>
+            </div>
+            <div class="form-field">
+              <label for="photo-caption">Caption</label>
+              <input type="text" id="photo-caption" name="caption" />
+              <p class="field-error" id="photo-caption-error" hidden></p>
+            </div>
+            <div class="form-field">
+              <label for="photo-captionZh">Caption 中文</label>
+              <input type="text" id="photo-captionZh" name="captionZh" />
+              <p class="field-error" id="photo-captionZh-error" hidden></p>
+            </div>
+            <div class="form-field">
+              <label for="photo-date">Date</label>
+              <input type="date" id="photo-date" name="date" />
+              <p class="field-error" id="photo-date-error" hidden></p>
+            </div>
+            <div class="form-field form-field--checkbox form-field--wide">
+              <label for="photo-published">
+                <input type="checkbox" id="photo-published" name="published" />
+                Published <span class="zh">已发布</span> (visible on the public site)
+              </label>
+            </div>
+
+            <div class="form-status" id="photo-form-status" role="status" hidden></div>
+
+            <div class="admin-form-actions">
+              <button type="submit" class="btn crimson small" id="photo-submit-btn">Add Photo</button>
+              <button type="button" class="btn ghost small" id="photo-cancel-btn">Cancel</button>
+            </div>
+          </form>
+
+          <div class="form-status" id="photo-list-status" role="status" hidden></div>
+          <div id="photo-list-loading"></div>
+          <table class="admin-table" id="photo-table" hidden>
+            <thead>
+              <tr><th>Photo</th><th>Caption / Album</th><th>Status</th><th>Actions</th></tr>
+            </thead>
+            <tbody id="photo-table-body"></tbody>
+          </table>
+          <p class="lead empty-state" id="photo-empty" hidden>No photos yet — upload the first one above.</p>
+        </div>
+        <div class="panel" id="p-admin-locations" role="tabpanel">
+          <div class="admin-panel-head">
+            <h3>Locations <span class="zh">地点</span></h3>
+          </div>
+          <p class="lead">The four locations are fixed — edit their details and weekly schedules below. There is no draft state: saves go live on the contact pages immediately.</p>
+          <div class="form-status" id="location-list-status" role="status" hidden></div>
+          <div id="location-list-loading"></div>
+          <!-- One card per location, rendered by admin.ts's initLocationPanel()
+               from the live GET /api/locations data (values must be prefilled,
+               so static markup can't carry them like the other panels' forms). -->
+          <div id="location-cards"></div>
+        </div>
+        <div class="panel" id="p-admin-activity" role="tabpanel">
+          <div class="admin-panel-head">
+            <h3>Activity <span class="zh">操作记录</span></h3>
+          </div>
+          <!-- Phase 4 Task 08: read-only, deliberately — the audit log has no
+               edit/delete UI because no edit/delete route exists server-side
+               (ADR-8: rows are immutable, GET is the only surface). -->
+          <p class="lead">The most recent admin changes, newest first — who changed what, when. This log is append-only and cannot be edited.</p>
+          <div id="activity-list-loading"></div>
+          <table class="admin-table" id="activity-table" hidden>
+            <thead>
+              <tr><th>When</th><th>Admin</th><th>Action</th><th>Type</th><th>Entity</th></tr>
+            </thead>
+            <tbody id="activity-table-body"></tbody>
+          </table>
+          <p class="lead empty-state" id="activity-empty" hidden>No admin activity recorded yet.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div id="site-footer"></div>
+
+</body>
+</html>

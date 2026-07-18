@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Forgot Password 忘记密码 — BCC411</title>
+  <meta name="description" content="Request a password reset link for your Banner of Christ Church 411 account." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,400..900&family=Inter:wght@400;500;600&family=Noto+Sans+SC:wght@500;700&display=swap" rel="stylesheet" />
+  <script type="module" crossorigin src="/bcc411-demo/assets/forgot-4MfzBUMm.js"></script>
+  <link rel="modulepreload" crossorigin href="/bcc411-demo/assets/nav-Dk7rOftf.js">
+  <link rel="modulepreload" crossorigin href="/bcc411-demo/assets/authForms-Cav43f7r.js">
+  <link rel="stylesheet" crossorigin href="/bcc411-demo/assets/nav-BrESBVsN.css">
+</head>
+<body data-page="forgot">
+  <div id="site-header"></div>
+
+  <section class="auth-section">
+    <div class="wrap auth-wrap">
+      <div class="card auth-card" id="forgot-card">
+        <span class="eyebrow">Account · <span class="zh">账户</span></span>
+        <h2>Forgot Password <span class="zh">忘记密码</span></h2>
+        <p class="lead small">Enter your email and we'll send you a link to reset your password.</p>
+
+        <form class="auth-form" id="forgot-form" novalidate>
+          <div class="form-field">
+            <label for="email">Email</label>
+            <input type="email" id="email" name="email" autocomplete="email" required />
+            <p class="field-error" id="email-error" hidden></p>
+          </div>
+
+          <div class="form-status" id="form-status" role="status" hidden></div>
+
+          <button type="submit" class="btn crimson full" id="submit-btn">Send Reset Link</button>
+        </form>
+
+        <p class="lead small auth-links"><a href="login.html">Back to log in</a></p>
+      </div>
+    </div>
+  </section>
+
+  <div id="site-footer"></div>
+
+</body>
+</html>

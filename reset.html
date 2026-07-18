@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Reset Password 重置密码 — BCC411</title>
+  <meta name="description" content="Set a new password for your Banner of Christ Church 411 account." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,400..900&family=Inter:wght@400;500;600&family=Noto+Sans+SC:wght@500;700&display=swap" rel="stylesheet" />
+  <script type="module" crossorigin src="/bcc411-demo/assets/reset-DZXIzFDG.js"></script>
+  <link rel="modulepreload" crossorigin href="/bcc411-demo/assets/nav-Dk7rOftf.js">
+  <link rel="modulepreload" crossorigin href="/bcc411-demo/assets/authForms-Cav43f7r.js">
+  <link rel="stylesheet" crossorigin href="/bcc411-demo/assets/nav-BrESBVsN.css">
+</head>
+<body data-page="reset">
+  <div id="site-header"></div>
+
+  <section class="auth-section">
+    <div class="wrap auth-wrap">
+      <div class="card auth-card" id="reset-card">
+        <span class="eyebrow">Account · <span class="zh">账户</span></span>
+        <h2>Reset Password <span class="zh">重置密码</span></h2>
+        <p class="lead small">Choose a new password for your account.</p>
+
+        <form class="auth-form" id="reset-form" novalidate>
+          <div class="form-field">
+            <label for="new-password">New Password</label>
+            <input type="password" id="new-password" name="new-password" autocomplete="new-password" required maxlength="128" />
+            <p class="field-hint">At least 10 characters.</p>
+            <p class="field-error" id="new-password-error" hidden></p>
+          </div>
+          <div class="form-field">
+            <label for="confirm-password">Confirm Password</label>
+            <input type="password" id="confirm-password" name="confirm-password" autocomplete="new-password" required />
+            <p class="field-error" id="confirm-password-error" hidden></p>
+          </div>
+
+          <div class="form-status" id="form-status" role="status" hidden></div>
+
+          <button type="submit" class="btn crimson full" id="submit-btn">Reset Password</button>
+        </form>
+
+        <p class="lead small auth-links"><a href="login.html">Back to log in</a></p>
+      </div>
+    </div>
+  </section>
+
+  <div id="site-footer"></div>
+
+</body>
+</html>

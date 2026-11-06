@@ -72,7 +72,7 @@
         </div>
       </div>
       <div class="foot-bottom">
-        <span>Homepage replica · Content &amp; links: bcc411.com · Layout structure: austinstone.org</span>
+        <span>Content &amp; links: bcc411.com · Layout structure: austinstone.org</span>
         <div class="socials">
           <a href="https://www.youtube.com/@bcc4118">YouTube</a>
           <a href="https://bcc411.com/">bcc411.com</a>

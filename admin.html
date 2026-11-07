@@ -1,20 +1,22 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="zh-Hans">
 <head>
   <meta charset="UTF-8" />
+    <meta name="robots" content="noindex" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Admin Dashboard 管理后台 — BCC411</title>
-  <meta name="description" content="Content management dashboard for Banner of Christ Church 411 administrators." />
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,400..900&family=Inter:wght@400;500;600&family=Noto+Sans+SC:wght@500;700&display=swap" rel="stylesheet" />
-  <script type="module" crossorigin src="/bcc411-demo/assets/admin-BKTg7JH0.js"></script>
-  <link rel="modulepreload" crossorigin href="/bcc411-demo/assets/nav-Dk7rOftf.js">
-  <link rel="modulepreload" crossorigin href="/bcc411-demo/assets/markdown-Dp0d1t7X.js">
-  <link rel="modulepreload" crossorigin href="/bcc411-demo/assets/authForms-Cav43f7r.js">
-  <link rel="stylesheet" crossorigin href="/bcc411-demo/assets/nav-BrESBVsN.css">
+  <title>管理后台 Admin Dashboard - 基督旌旗411教会</title>
+  <script src="/bcc411-demo/lang-init.js"></script>
+  <link rel="icon" type="image/png" href="/bcc411-demo/favicon.png" />
+  <script type="module" crossorigin src="/bcc411-demo/assets/admin-Cdk1YIKI.js"></script>
+  <link rel="modulepreload" crossorigin href="/bcc411-demo/assets/nav-Bhth8lqx.js">
+  <link rel="modulepreload" crossorigin href="/bcc411-demo/assets/markdown-DyElYZdi.js">
+  <link rel="modulepreload" crossorigin href="/bcc411-demo/assets/authForms-Cby3tvdZ.js">
+  <link rel="stylesheet" crossorigin href="/bcc411-demo/assets/nav-Bddqj_YJ.css">
 </head>
 <body data-page="admin">
   <div id="site-header"></div>
+
+  <main id="main">
 
   <section>
     <div class="wrap">
@@ -28,6 +30,7 @@
           <button class="tab" role="tab" aria-selected="true" data-panel="p-admin-sermons">Sermons 信息</button>
           <button class="tab" role="tab" aria-selected="false" data-panel="p-admin-events">Events 近期活动</button>
           <button class="tab" role="tab" aria-selected="false" data-panel="p-admin-posts">Posts 文章</button>
+          <button class="tab" role="tab" aria-selected="false" data-panel="p-admin-videos">Videos 视频</button>
           <button class="tab" role="tab" aria-selected="false" data-panel="p-admin-photos">Photos 相册</button>
           <button class="tab" role="tab" aria-selected="false" data-panel="p-admin-locations">Locations 地点</button>
           <button class="tab" role="tab" aria-selected="false" data-panel="p-admin-activity">Activity 操作记录</button>
@@ -36,7 +39,7 @@
         <div class="panel active" id="p-admin-sermons" role="tabpanel">
           <div class="admin-panel-head">
             <h3>Sermons <span class="zh">信息</span></h3>
-            <button type="button" class="btn crimson small" id="sermon-new-btn">New Sermon 新增信息</button>
+            <button type="button" class="btn primary small" id="sermon-new-btn">New Sermon 新增信息</button>
           </div>
 
           <form class="admin-form" id="sermon-form" novalidate hidden>
@@ -78,9 +81,25 @@
               <p class="field-error" id="sermon-category-error" hidden></p>
             </div>
             <div class="form-field">
-              <label for="sermon-videoUrl">Video URL</label>
-              <input type="text" id="sermon-videoUrl" name="videoUrl" placeholder="https://youtube.com/watch?v=…" />
+              <label for="sermon-audioUrl">Audio URL 音频</label>
+              <input type="text" id="sermon-audioUrl" name="audioUrl" placeholder="https://…/sermon.mp3" />
+              <p class="field-error" id="sermon-audioUrl-error" hidden></p>
+            </div>
+            <div class="form-field">
+              <label for="sermon-videoUrl">Video URL 视频</label>
+              <input type="text" id="sermon-videoUrl" name="videoUrl" placeholder="YouTube link or video file" />
               <p class="field-error" id="sermon-videoUrl-error" hidden></p>
+            </div>
+            <div class="form-field">
+              <label for="sermon-seriesTitle">Retreat Name 特会名称</label>
+              <input type="text" id="sermon-seriesTitle" name="seriesTitle" />
+              <p class="field-hint">Talks with the same name and year appear together.</p>
+              <p class="field-error" id="sermon-seriesTitle-error" hidden></p>
+            </div>
+            <div class="form-field">
+              <label for="sermon-seriesNote">Retreat Note 特会说明</label>
+              <input type="text" id="sermon-seriesNote" name="seriesNote" placeholder="2025年5月纽约敬拜祷告特会" />
+              <p class="field-error" id="sermon-seriesNote-error" hidden></p>
             </div>
             <div class="form-field form-field--wide">
               <label for="sermon-notes">Notes</label>
@@ -97,11 +116,16 @@
             <div class="form-status" id="sermon-form-status" role="status" hidden></div>
 
             <div class="admin-form-actions">
-              <button type="submit" class="btn crimson small" id="sermon-submit-btn">Create Sermon</button>
+              <button type="submit" class="btn primary small" id="sermon-submit-btn">Create Sermon</button>
               <button type="button" class="btn ghost small" id="sermon-cancel-btn">Cancel</button>
             </div>
           </form>
 
+          <div class="admin-search">
+            <label for="sermon-search">Search 搜索</label>
+            <input type="search" id="sermon-search" placeholder="Title, speaker, date, or retreat" />
+            <span class="field-hint" id="sermon-count" role="status"></span>
+          </div>
           <div class="form-status" id="sermon-list-status" role="status" hidden></div>
           <div id="sermon-list-loading"></div>
           <table class="admin-table" id="sermon-table" hidden>
@@ -111,11 +135,12 @@
             <tbody id="sermon-table-body"></tbody>
           </table>
           <p class="lead empty-state" id="sermon-empty" hidden>No sermons yet — create the first one above.</p>
+          <button type="button" class="btn ghost small admin-more" id="sermon-more" hidden>Show more 显示更多</button>
         </div>
         <div class="panel" id="p-admin-events" role="tabpanel">
           <div class="admin-panel-head">
             <h3>Events <span class="zh">近期活动</span></h3>
-            <button type="button" class="btn crimson small" id="event-new-btn">New Event 新增活动</button>
+            <button type="button" class="btn primary small" id="event-new-btn">New Event 新增活动</button>
           </div>
 
           <form class="admin-form" id="event-form" novalidate hidden>
@@ -153,7 +178,7 @@
                 <option value="ny">New York</option>
                 <option value="houston">Houston</option>
                 <option value="nc">North Carolina</option>
-                <option value="europe">Frankfurt</option>
+                <option value="europe">Europe</option>
               </select>
               <p class="field-error" id="event-location-error" hidden></p>
             </div>
@@ -161,6 +186,25 @@
               <label for="event-link">Link</label>
               <input type="text" id="event-link" name="link" placeholder="https://…" />
               <p class="field-error" id="event-link-error" hidden></p>
+            </div>
+            <div class="form-field">
+              <label for="event-coverUrl">Cover Image 封面</label>
+              <input type="text" id="event-coverUrl" name="coverUrl" />
+              <input type="file" id="event-cover-file" accept="image/*" />
+              <p class="field-hint">Choose a file to upload it, or paste an image URL.</p>
+              <p class="field-error" id="event-coverUrl-error" hidden></p>
+            </div>
+            <div class="form-field">
+              <label for="event-flyers">Flyer Images 单张</label>
+              <textarea id="event-flyers" name="flyers" rows="3"></textarea>
+              <p class="field-hint">One image URL per line.</p>
+              <p class="field-error" id="event-flyers-error" hidden></p>
+            </div>
+            <div class="form-field form-field--wide">
+              <label for="event-downloads">Downloads 下载</label>
+              <textarea id="event-downloads" name="downloads" rows="2" placeholder="下载单张 Flyer | https://…/flyer.pdf"></textarea>
+              <p class="field-hint">One per line: label | URL</p>
+              <p class="field-error" id="event-downloads-error" hidden></p>
             </div>
             <div class="form-field form-field--wide">
               <label for="event-description">Description</label>
@@ -177,7 +221,7 @@
             <div class="form-status" id="event-form-status" role="status" hidden></div>
 
             <div class="admin-form-actions">
-              <button type="submit" class="btn crimson small" id="event-submit-btn">Create Event</button>
+              <button type="submit" class="btn primary small" id="event-submit-btn">Create Event</button>
               <button type="button" class="btn ghost small" id="event-cancel-btn">Cancel</button>
             </div>
           </form>
@@ -195,7 +239,7 @@
         <div class="panel" id="p-admin-posts" role="tabpanel">
           <div class="admin-panel-head">
             <h3>Posts <span class="zh">文章</span></h3>
-            <button type="button" class="btn crimson small" id="post-new-btn">New Post 新增文章</button>
+            <button type="button" class="btn primary small" id="post-new-btn">New Post 新增文章</button>
           </div>
 
           <form class="admin-form" id="post-form" novalidate hidden>
@@ -235,6 +279,16 @@
               <input type="text" id="post-author" name="author" />
               <p class="field-error" id="post-author-error" hidden></p>
             </div>
+            <div class="form-field">
+              <label for="post-seriesTitle">Testimony Collection 见证合集</label>
+              <input type="text" id="post-seriesTitle" name="seriesTitle" placeholder="以色列之旅见证" />
+              <p class="field-error" id="post-seriesTitle-error" hidden></p>
+            </div>
+            <div class="form-field">
+              <label for="post-seriesNote">Collection Note 合集说明</label>
+              <input type="text" id="post-seriesNote" name="seriesNote" placeholder="2023年7月" />
+              <p class="field-error" id="post-seriesNote-error" hidden></p>
+            </div>
             <div class="form-field form-field--wide">
               <label for="post-excerpt">Excerpt</label>
               <textarea id="post-excerpt" name="excerpt" rows="2"></textarea>
@@ -259,17 +313,22 @@
             <div class="form-status" id="post-form-status" role="status" hidden></div>
 
             <div class="admin-form-actions">
-              <button type="submit" class="btn crimson small" id="post-submit-btn">Create Post</button>
+              <button type="submit" class="btn primary small" id="post-submit-btn">Create Post</button>
               <button type="button" class="btn ghost small" id="post-cancel-btn">Cancel</button>
             </div>
           </form>
 
           <div class="admin-panel-filter" role="group" aria-label="Filter posts by kind">
-            <button type="button" class="btn crimson small post-kind-filter" data-kind="all" aria-pressed="true">All</button>
+            <button type="button" class="btn primary small post-kind-filter" data-kind="all" aria-pressed="true">All</button>
             <button type="button" class="btn ghost small post-kind-filter" data-kind="article" aria-pressed="false">Articles</button>
             <button type="button" class="btn ghost small post-kind-filter" data-kind="testimony" aria-pressed="false">Testimonies</button>
           </div>
 
+          <div class="admin-search">
+            <label for="post-search">Search 搜索</label>
+            <input type="search" id="post-search" placeholder="Title, author, or collection" />
+            <span class="field-hint" id="post-count" role="status"></span>
+          </div>
           <div class="form-status" id="post-list-status" role="status" hidden></div>
           <div id="post-list-loading"></div>
           <table class="admin-table" id="post-table" hidden>
@@ -279,7 +338,86 @@
             <tbody id="post-table-body"></tbody>
           </table>
           <p class="lead empty-state" id="post-empty" hidden>No posts yet — create the first one above.</p>
+          <button type="button" class="btn ghost small admin-more" id="post-more" hidden>Show more 显示更多</button>
         </div>
+        <div class="panel" id="p-admin-videos" role="tabpanel">
+          <div class="admin-panel-head">
+            <h3>Videos <span class="zh">视频</span></h3>
+            <button type="button" class="btn primary small" id="video-new-btn">New Video 新增视频</button>
+          </div>
+
+          <form class="admin-form" id="video-form" novalidate hidden>
+            <h4 id="video-form-heading">New Video</h4>
+            <div class="form-field">
+              <label for="video-id">ID</label>
+              <input type="text" id="video-id" name="id" />
+              <p class="field-error" id="video-id-error" hidden></p>
+            </div>
+            <div class="form-field">
+              <label for="video-year">Year 年份</label>
+              <input type="number" id="video-year" name="year" />
+              <p class="field-error" id="video-year-error" hidden></p>
+            </div>
+            <div class="form-field">
+              <label for="video-titleZh">Title 中文</label>
+              <input type="text" id="video-titleZh" name="titleZh" />
+              <p class="field-error" id="video-titleZh-error" hidden></p>
+            </div>
+            <div class="form-field">
+              <label for="video-title">Title English</label>
+              <input type="text" id="video-title" name="title" />
+              <p class="field-error" id="video-title-error" hidden></p>
+            </div>
+            <div class="form-field">
+              <label for="video-youtubeUrl">YouTube Link</label>
+              <input type="text" id="video-youtubeUrl" name="youtubeUrl" placeholder="https://www.youtube.com/watch?v=…" />
+              <p class="field-hint">Plays instead of the file when set.</p>
+              <p class="field-error" id="video-youtubeUrl-error" hidden></p>
+            </div>
+            <div class="form-field">
+              <label for="video-fileUrl">Video File URL</label>
+              <input type="text" id="video-fileUrl" name="fileUrl" placeholder="https://…/video.mp4" />
+              <p class="field-error" id="video-fileUrl-error" hidden></p>
+            </div>
+            <div class="form-field">
+              <label for="video-posterUrl">Poster Image URL</label>
+              <input type="text" id="video-posterUrl" name="posterUrl" placeholder="/bcc411-demo/video-posters/name.webp" />
+              <p class="field-hint">Shown until someone presses play. Without one, the page fetches part of the file to make a preview.</p>
+              <p class="field-error" id="video-posterUrl-error" hidden></p>
+            </div>
+            <div class="form-field">
+              <label for="video-featuredOrder">Home Carousel Position 首页顺序</label>
+              <input type="number" id="video-featuredOrder" name="featuredOrder" />
+              <p class="field-hint">Leave empty to keep off the home page. Needs a YouTube link.</p>
+              <p class="field-error" id="video-featuredOrder-error" hidden></p>
+            </div>
+            <div class="form-field">
+              <label for="video-sortOrder">Order Within Year 排序</label>
+              <input type="number" id="video-sortOrder" name="sortOrder" />
+              <p class="field-error" id="video-sortOrder-error" hidden></p>
+            </div>
+            <div class="form-field form-field--checkbox form-field--wide">
+              <label for="video-published">
+                <input type="checkbox" id="video-published" name="published" />
+                Published <span class="zh">已发布</span> (visible on the public site)
+              </label>
+            </div>
+            <div class="form-status" id="video-form-status" role="status" hidden></div>
+            <div class="admin-form-actions">
+              <button type="submit" class="btn primary small" id="video-submit-btn">Create Video</button>
+              <button type="button" class="btn ghost small" id="video-cancel-btn">Cancel</button>
+            </div>
+          </form>
+
+          <div class="form-status" id="video-list-status" role="status" hidden></div>
+          <div id="video-list-loading"></div>
+          <p class="lead empty-state" id="video-empty" hidden>No videos yet.</p>
+          <table class="admin-table" id="video-table" hidden>
+            <thead><tr><th>Year</th><th>Title</th><th>Source</th><th>Home</th><th>Status</th><th>Actions</th></tr></thead>
+            <tbody id="video-table-body"></tbody>
+          </table>
+        </div>
+
         <div class="panel" id="p-admin-photos" role="tabpanel">
           <div class="admin-panel-head">
             <h3>Photos <span class="zh">相册</span></h3>
@@ -295,7 +433,7 @@
             </div>
             <div class="form-status" id="photo-upload-status" role="status" hidden></div>
             <div class="admin-form-actions">
-              <button type="button" class="btn crimson small" id="photo-upload-btn">Upload</button>
+              <button type="button" class="btn primary small" id="photo-upload-btn">Upload</button>
             </div>
           </div>
 
@@ -348,11 +486,16 @@
             <div class="form-status" id="photo-form-status" role="status" hidden></div>
 
             <div class="admin-form-actions">
-              <button type="submit" class="btn crimson small" id="photo-submit-btn">Add Photo</button>
+              <button type="submit" class="btn primary small" id="photo-submit-btn">Add Photo</button>
               <button type="button" class="btn ghost small" id="photo-cancel-btn">Cancel</button>
             </div>
           </form>
 
+          <div class="admin-search">
+            <label for="photo-search">Search 搜索</label>
+            <input type="search" id="photo-search" placeholder="Album, caption, or date" />
+            <span class="field-hint" id="photo-count" role="status"></span>
+          </div>
           <div class="form-status" id="photo-list-status" role="status" hidden></div>
           <div id="photo-list-loading"></div>
           <table class="admin-table" id="photo-table" hidden>
@@ -362,6 +505,7 @@
             <tbody id="photo-table-body"></tbody>
           </table>
           <p class="lead empty-state" id="photo-empty" hidden>No photos yet — upload the first one above.</p>
+          <button type="button" class="btn ghost small admin-more" id="photo-more" hidden>Show more 显示更多</button>
         </div>
         <div class="panel" id="p-admin-locations" role="tabpanel">
           <div class="admin-panel-head">
@@ -395,6 +539,8 @@
       </div>
     </div>
   </section>
+
+  </main>
 
   <div id="site-footer"></div>
 

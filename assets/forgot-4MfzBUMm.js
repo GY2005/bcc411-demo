@@ -1,6 +1,0 @@
-import{m as u,i as m,F as d,A as h}from"./nav-Dk7rOftf.js";import{c as p,h as g,s as c,a as i}from"./authForms-Cav43f7r.js";const l=document.body.dataset.page;l&&(u(l),m());const a=document.querySelector("#forgot-form"),n=document.querySelector("#email"),f=document.querySelector("#email-error"),r=document.querySelector("#form-status"),o=document.querySelector("#submit-btn");function y(s){const e=document.querySelector("#forgot-card");if(!e)return;e.innerHTML=`
-    <span class="eyebrow">Account · <span class="zh">账户</span></span>
-    <h2>Check Your Email <span class="zh">请查收邮件</span></h2>
-    <p class="lead" id="check-email-message"></p>
-    <p class="lead small auth-links"><a href="login.html">Back to log in</a></p>
-  `;const t=e.querySelector("#check-email-message");t&&t.append("If ",Object.assign(document.createElement("strong"),{textContent:s})," has an account with us, we've sent a link to reset your password. The link expires in 1 hour.")}a==null||a.addEventListener("submit",async s=>{if(s.preventDefault(),!n||!o)return;p(n,f),g(r);const e=n.value.trim();c(o,!0,"Sending…","Send Reset Link");try{await d(e),y(e)}catch(t){t instanceof h?i(r,"error",t.message):i(r,"error","Something went wrong. Please try again."),c(o,!1,"Sending…","Send Reset Link")}});

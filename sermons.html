@@ -1,36 +1,34 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="zh-Hans">
 <head>
   <meta charset="UTF-8" />
+    <meta name="robots" content="noindex" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Sermons 信息 — BCC411</title>
-  <meta name="description" content="Watch Sunday sermons, retreat messages, and teaching series from Banner of Christ Church 411." />
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,400..900&family=Inter:wght@400;500;600&family=Noto+Sans+SC:wght@500;700&display=swap" rel="stylesheet" />
-  <script type="module" crossorigin src="/bcc411-demo/assets/sermons-I41KLPco.js"></script>
-  <link rel="modulepreload" crossorigin href="/bcc411-demo/assets/nav-Dk7rOftf.js">
-  <link rel="modulepreload" crossorigin href="/bcc411-demo/assets/markdown-Dp0d1t7X.js">
-  <link rel="stylesheet" crossorigin href="/bcc411-demo/assets/nav-BrESBVsN.css">
+  <title>信息 Sermons - 基督旌旗411教会</title>
+  <meta name="description" content="主日信息、特会信息和主题信息的讲道录音与视频。 Sunday, retreat, and teaching sermons, in audio and video." />
+  <meta property="og:title" content="信息 Sermons - 基督旌旗411教会" />
+  <meta property="og:description" content="主日信息、特会信息和主题信息的讲道录音与视频。 Sunday, retreat, and teaching sermons, in audio and video." />
+  <meta property="og:site_name" content="基督旌旗411教会 Banner of Christ Church 411" />
+  <script src="/bcc411-demo/lang-init.js"></script>
+  <link rel="icon" type="image/png" href="/bcc411-demo/favicon.png" />
+  <script type="module" crossorigin src="/bcc411-demo/assets/nav-Bhth8lqx.js"></script>
+  <script type="module" crossorigin src="/bcc411-demo/assets/bootstrap-Dkx3EEv3.js"></script>
+  <link rel="stylesheet" crossorigin href="/bcc411-demo/assets/nav-Bddqj_YJ.css">
 </head>
 <body data-page="sermons">
   <div id="site-header"></div>
 
-  <section>
-    <div class="wrap">
-      <span class="eyebrow">Sermons · <span class="zh">信息</span></span>
-      <h2>Sunday sermons, retreats, and teaching series.</h2>
-      <p class="lead">New messages most weeks — filter by category or browse everything below.</p>
-
-      <div class="tabs" role="tablist" aria-label="Sermon categories" id="sermon-tabs">
-        <button class="tab" role="tab" aria-selected="false" data-filter="sunday">Sunday 主日信息</button>
-        <button class="tab" role="tab" aria-selected="false" data-filter="retreat">Retreat 特会信息</button>
-        <button class="tab" role="tab" aria-selected="false" data-filter="teaching">Teaching 主题信息</button>
-        <button class="tab" role="tab" aria-selected="true" data-filter="all">All 全部</button>
+  <main id="main">
+    <h1 class="sr-only">信息 Sermons</h1>
+    <section class="hub">
+      <img class="hub-arches" src="/bcc411-demo/brand/arches.webp" srcset="/bcc411-demo/brand/arches-800.webp 800w, /bcc411-demo/brand/arches.webp 1725w" sizes="(max-width: 1440px) 100vw, 1440px" width="1725" height="808" alt="" fetchpriority="high" />
+      <div class="hub-cards hub-cards--3">
+        <a class="hub-card" href="sermons-sunday.html"><span class="l-zh" lang="zh-Hans">主日信息</span><span class="l-en" lang="en">Sunday Sermons</span></a>
+        <a class="hub-card" href="sermons-retreat.html"><span class="l-zh" lang="zh-Hans">特会信息</span><span class="l-en" lang="en">Retreat Sermons</span></a>
+        <a class="hub-card" href="sermons-teaching.html"><span class="l-zh" lang="zh-Hans">主题信息</span><span class="l-en" lang="en">Teaching Sermons</span></a>
       </div>
-
-      <div class="sermon-grid" id="sermon-grid" role="tabpanel" aria-label="Sermon list"></div>
-    </div>
-  </section>
+    </section>
+  </main>
 
   <div id="site-footer"></div>
 

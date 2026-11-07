@@ -1,0 +1,6 @@
+import{m as d,i as h,t as a,R as p,K as r}from"./nav-Bhth8lqx.js";import{c as f,h as g,s as i,b as y,d as S}from"./authForms-Cby3tvdZ.js";const l=document.body.dataset.page;l&&(d(l),h());const o=document.querySelector("#forgot-form"),n=document.querySelector("#email"),b=document.querySelector("#email-error"),u=document.querySelector("#form-status"),c=document.querySelector("#submit-btn");function k(s){const e=document.querySelector("#forgot-card");if(!e)return;e.innerHTML=`
+    <span class="eyebrow">${r("账户","Account")}</span>
+    <h1 class="auth-title">${r("请查收邮件","Check Your Email")}</h1>
+    <p class="lead" id="check-email-message"></p>
+    <p class="lead small auth-links"><a href="login.html">${r("返回登录","Back to log in")}</a></p>
+  `;const t=e.querySelector("#check-email-message");t&&t.append(a("如果 ","If "),Object.assign(document.createElement("strong"),{textContent:s}),a(" 已注册，我们已发送重置密码的链接。链接 1 小时后失效。"," has an account with us, we've sent a link to reset your password. The link expires in 1 hour."))}o==null||o.addEventListener("submit",async s=>{if(s.preventDefault(),!n||!c)return;f(n,b),g(u);const e=n.value.trim(),t=a("发送重置链接","Send Reset Link");i(c,!0,a("发送中…","Sending…"),t);try{await p(e),k(e)}catch(m){y(u,"error",S(m)),i(c,!1,a("发送中…","Sending…"),t)}});
